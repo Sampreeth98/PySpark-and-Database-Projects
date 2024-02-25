@@ -1,0 +1,50 @@
+Sequence of steps: 
+-----------------
+
+1. Create a python script file : In our case it is the `sparkRdd.py`
+   a. Remove the steps that we have used in the jupyter notebook - removing the findspark statemnts
+   b. Remove unnecassary `print` statements
+   
+   
+2. Copy the data and the script file from the machine we are working to the Hadoop machine. 
+   Using secure copy we can copy the files to Hadoop machine
+        <Input files> input.txt fileName - 
+        Command is : scp input.txt <username>@172.16.0.<allocateIp>:<path>
+        Example : scp input.txt insofe@172.16.0.118:/home/insofe
+        -- Enter the password
+        <Python Script file> sparkRdd.py
+        Command is : scp sparkRdd.py <username>@172.16.0.<allocateIp>:<path>
+        Example : scp sparkRdd.py insofe@172.16.0.118:/home/insofe
+        
+        
+3. To run the python script file on hadoop cluster
+    Before running on the cluster - ssh to the cluster
+    <login to the cluster>
+    Command : ssh <username>@172.16.0.<allocatedIp>
+    Example : ssh fai1001@172.16.0.119
+           -- Enter the password
+    Use the spark-submit command - This command can take multiple arguments as input. 
+    We are using the sparkRdd.py file to run it on the cluster
+    <Python Script file> sparkRdd.py
+    Command: spark-submit sparkRdd.py --master yarn --deploy-mode cluster
+            -- Other options like executer memory, driver memory can be added while running spark-submit
+            
+4. To view the Spark Web UI - enable the sleep command for number of seconds
+    Note: For INSOFE cluster please use VPN to view the below UI
+    VPN details are provided in the email
+    WebUI helps in checking for DAG and optimizing the code.
+    - Helps in view number of executors allocated and then changing the parameters or tune the spark code
+    <Enable sleep> : Import the time pacakge
+    [In python script file]: import time
+    # Add the below statement whereever sleep is need
+    time.sleep(n) # n is the number of seconds
+    ## To check the spark Web UI -- Scan the logs for 'SparkUI'
+    open the URL 
+    On the cluster : <ipaddress>:<port>
+    Example: for dn3 
+    172.16.0.119:4040 - Please check the port number in logs for opening the URL in browser
+    
+    
+        
+             
+    
